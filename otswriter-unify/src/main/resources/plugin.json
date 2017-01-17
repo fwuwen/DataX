@@ -1,0 +1,6 @@
+{
+    "name": "otswriter-unify",
+    "class": "com.alibaba.datax.plugin.writer.otswriter.OtsWriter",
+    "description": "otswriter for ots unify",
+    "developer": "zhaofeng.zhou@alibaba-inc.com"
+}

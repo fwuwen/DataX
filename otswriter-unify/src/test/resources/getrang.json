@@ -1,0 +1,11 @@
+{
+	"tableName":"ots_writer_conversion_binary_attr_ft",
+	"maxVersion":10000,
+	"direction":"FORWARD",
+	"begin":{
+		"primaryKey":[{"name":"name","value":{"value":"","type":"STRING"}}]
+	},
+	"end":{
+		"primaryKey":[{"name":"name","value":{"value":"z","type":"STRING"}}]
+	}
+}

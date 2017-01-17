@@ -1,0 +1,10 @@
+{
+    "endpoint":"",
+    "accessid":"",
+    "accesskey":"",
+    "instance-name":"",
+    "instance-id":"",
+    "legacy-instance-name":"datax-legacy",
+    "public-instance-name":"datax-public",
+    "ag-ip":""
+}

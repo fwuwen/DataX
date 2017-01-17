@@ -1,0 +1,86 @@
+// 背景：支持Hbase的全量数据迁移到OTS
+
+// 细节：
+// 1.如果使用多版本模式，value为null应该怎么解释？
+//   : 表示删除指定的版本
+// 2.如果ts列为空怎么办？
+//   ：插件记录为垃圾数据
+// 3.Record的count和期望不符？
+//   : 插件异常终止
+// 4.在普通模式下，采用UpdateRow的方式写入数据，如果不指定TS，相同行数的数据怎么写入到OTS中？
+//   : 后面的覆盖前面的数据
+
+// 多版本模式
+// 注意：这种模式的数据格式比较特殊，该writer需要reader也提供版本的输出
+// 当前只有hbase reader提供这种模式，使用时切记注意
+{
+    "endpoint":"",
+    "accessId":"",
+    "accessKey":"",
+    "instanceName":"",
+    "table":"",
+
+    // 多版本模式，插件会按照多版本模式去解析所有配置
+    "mode":"multiVersion",
+
+    // 配置PK信息
+    // 考虑到配置成本，并不需要配置PK在Record（Line）中的位置，要求
+    // Record的格式固定,PK一定在行首，PK之后是columnName，格式如下：
+    // 如：{pk0,pk1,pk2,pk3}, {columnName}, {timestamp}, {value}
+    "primaryKey":[
+        "userid",
+        "groupid"
+    ],
+    
+    // 列名前缀过滤
+    // 描述：hbase导入过来的数据，cf和qulifier共同组成columnName，
+    // OTS并不支持cf，所以需要将cf过滤掉
+    // 注意：
+    // 1.该参数选填，如果没有填写或者值为空字符串，表示不对列名进行过滤。
+    // 2.如果datax传入的数据columnName列不是以前缀开始，则将该Record放入脏数据回收器中
+    "columnNamePrefixFilter":"cf:"
+}
+
+// 标准模式的配置
+{
+    "endpoint":"",
+    "accessId":"",
+    "accessKey":"",
+    "instanceName":"",
+    "table":"",
+    // 标准模式，插件会按照标准模式去解析所有配置
+    // 可选，mode可以不配置，默认为‘normal’
+    "mode":"normal",
+
+    // Record中的每列都代表都一一映射到‘primaryKey’和‘column’配置，如：primaryKey和
+    // column一共配置了4个列,那么Record中就必须有4列值，否则就会报错
+
+    // 需要导入的PK列名，区分大小写
+    // 类型支持：STRING，INT,BINARY
+    // 必选
+    // 1. 支持类型转换，注意类型转换时的精度丢失
+    // 2. 顺序不要求和表的Meta一致
+    // 3. name全局唯一
+    "primaryKey":[
+        "userid",
+        "groupid"
+    ],
+
+    // 需要导入的列名，区分大小写
+    // 类型支持STRING，INT，DOUBLE，BOOL和BINARY
+    // 必选
+    // 1.name全局唯一
+    "column":[
+        {"name":"addr", "type":"string"},
+        {"name":"height", "type":"int"}
+    ],
+
+    // 如果用户配置了时间戳，系统将使用配置的时间戳，如果没有配置，使用OTS的系统时间戳
+    // 可选
+    "defaultTimestampInMillionSecond": 142722431,
+
+    // 写入OTS的方式
+    // PutRow : 等同于OTS API中PutRow操作，检查条件是ignore
+    // UpdateRow : 等同于OTS API中UpdateRow操作，检查条件是ignore
+    "writeMode":"PutRow"
+}

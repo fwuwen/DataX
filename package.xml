@@ -239,7 +239,7 @@
             <outputDirectory>datax</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>otswriter-internal/target/datax/</directory>
+            <directory>otswriter-unify/target/datax/</directory>
             <includes>
                 <include>**/*.*</include>
             </includes>

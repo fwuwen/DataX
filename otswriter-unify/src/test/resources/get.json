@@ -1,0 +1,7 @@
+{
+	"tableName":"ots_writer_datax",
+	"maxVersion":100000,
+	"pk":{
+		"primaryKey":[{"name":"userid","value":{"value":"eccbc87e4b5ce2fe28308fd9f2a7baf3","type":"STRING"}}]
+	}
+}

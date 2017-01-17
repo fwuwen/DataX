@@ -72,6 +72,7 @@
         <module>hdfswriter</module>
         <module>streamwriter</module>
         <module>otswriter</module>
+        <module>otswriter-unify</module>
         <module>oraclewriter</module>
         <module>sqlserverwriter</module>
         <module>postgresqlwriter</module>

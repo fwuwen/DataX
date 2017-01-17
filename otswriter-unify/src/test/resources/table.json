@@ -1,0 +1,7 @@
+{
+	"tableName":"Test",
+	"maxVersion":100,
+	"timeToLive":1000,
+	"pks":[{"name":"name","type":"STRING"}],
+	"partitions":[{"begin":{"value":"1","type":"STRING"},"end":{"value":"2","type":"STRING"}}]
+}
